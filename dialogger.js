@@ -168,9 +168,9 @@ joint.shapes.dialogue.BaseView = joint.shapes.devs.ModelView.extend(
 		'<div class="node">',
 		'<span class="label"></span>',
 		'<button class="delete">x</button>',
-        '<input type="actor" class="actor" placeholder="Actor" />',
+        '<input type="actor" class="actor" placeholder="角色" />',
 		//'<input type="text" class="name" placeholder="Text" />',
-        '<p> <textarea type="text" class="name" rows="4" cols="27" placeholder="Speech"></textarea></p>',
+        '<p> <textarea type="text" class="name" rows="4" cols="27" placeholder="对白"></textarea></p>',
         '</div>',
 	].join(''),
 
@@ -247,7 +247,9 @@ joint.shapes.dialogue.BaseView = joint.shapes.devs.ModelView.extend(
 
 		var label = this.$box.find('.label');
 		var type = this.model.get('type').slice('dialogue.'.length);
-		label.text(type);
+		var typeString = type.replace('Branch', '分支').replace('Text', '文本')
+							.replace('Node', '节点').replace('Set', '设置');
+		label.text(typeString);
 		label.attr('class', 'label ' + type);
 	    //this.$box.css({ width: bbox.width, height: bbox.height, left: bbox.x, top: bbox.y, transform: 'rotate(' + (this.model.get('angle') || 0) + 'deg)' });
 		this.$box.css({ width: bbox.width, height: bbox.height, left: bbox.x, top: bbox.y, transform: 'rotate(' + (this.model.get('angle') || 0) + 'deg)' });
@@ -269,8 +271,8 @@ joint.shapes.dialogue.ChoiceView = joint.shapes.devs.ModelView.extend(
 		'<div class="node">',
 		'<span class="label"> </span>',
 		'<button class="delete">x</button>',
-        '<input type="choice" class="title" placeholder="Title" />',
-        '<p> <textarea type="text" class="name" rows="4" cols="27" placeholder="Speech"></textarea></p>',
+        '<input type="choice" class="title" placeholder="标题" />',
+        '<p> <textarea type="text" class="name" rows="4" cols="27" placeholder="对白"></textarea></p>',
 		'</div>',
         		
 	].join(''),
@@ -329,7 +331,8 @@ joint.shapes.dialogue.ChoiceView = joint.shapes.devs.ModelView.extend(
 
         var label = this.$box.find('.label');
         var type = this.model.get('type').slice('dialogue.'.length);
-        label.text(type);
+        var typeString = type.replace('Choice', '选项');
+		label.text(typeString);
         label.attr('class', 'label ' + type);
 
 
@@ -435,7 +438,7 @@ joint.shapes.dialogue.BranchView = joint.shapes.dialogue.BaseView.extend(
 		'<button class="delete">x</button>',
 		'<button class="add">+</button>',
 		'<button class="remove">-</button>',
-		'<input type="text" class="name" placeholder="Variable" />',
+		'<input type="text" class="name" placeholder="变量" />',
 		'<input type="text" value="Default" readonly/>',
 		'</div>',
 	].join(''),
@@ -483,7 +486,7 @@ joint.shapes.dialogue.BranchView = joint.shapes.dialogue.BaseView.extend(
 		{
 			// Prevent paper from handling pointerdown.
 			var field = $('<input type="text" class="value" />');
-			field.attr('placeholder', 'Value ' + (i + 1).toString());
+			field.attr('placeholder', '值 ' + (i + 1).toString());
 			field.attr('index', i);
 			this.$box.append(field);
 			field.on('mousedown click', function(evt) { evt.stopPropagation(); });
@@ -544,8 +547,8 @@ joint.shapes.dialogue.SetView = joint.shapes.dialogue.BaseView.extend(
 		'<div class="node">',
 		'<span class="label"></span>',
 		'<button class="delete">x</button>',
-		'<input type="text" class="name" placeholder="Variable" />',
-		'<input type="text" class="value" placeholder="Value" />',
+		'<input type="text" class="name" placeholder="变量" />',
+		'<input type="text" class="value" placeholder="值" />',
 		'</div>',
 	].join(''),
 
@@ -996,18 +999,18 @@ $('#paper').contextmenu(
 	width: 150,
 	items:
 	[
-		{ text: 'Text', alias: '1-1', action: add(joint.shapes.dialogue.Text) },
-		{ text: 'Choice', alias: '1-2', action: add(joint.shapes.dialogue.Choice) },
-		{ text: 'Branch', alias: '1-3', action: add(joint.shapes.dialogue.Branch) },
-		{ text: 'Set', alias: '1-4', action: add(joint.shapes.dialogue.Set) },
-		{ text: 'Node', alias: '1-5', action: add(joint.shapes.dialogue.Node) },
+		{ text: '文本', alias: '1-1', action: add(joint.shapes.dialogue.Text) },
+		{ text: '选项', alias: '1-2', action: add(joint.shapes.dialogue.Choice) },
+		{ text: '分支', alias: '1-3', action: add(joint.shapes.dialogue.Branch) },
+		{ text: '设置', alias: '1-4', action: add(joint.shapes.dialogue.Set) },
+		{ text: '节点', alias: '1-5', action: add(joint.shapes.dialogue.Node) },
 		{ type: 'splitLine' },
-		{ text: 'Save', alias: '2-1', action: save },
-		{ text: 'Load', alias: '2-2', action: load },
-		{ text: 'Import', id: 'import', alias: '2-3', action: importFile },
-		{ text: 'New', alias: '2-4', action: clear },
-		{ text: 'Export', id: 'export', alias: '2-5', action: exportFile },
-		{ text: 'Export game file', id: 'export-game', alias: '2-6', action: exportGameFile },
+		{ text: '保存', alias: '2-1', action: save },
+		{ text: '读取', alias: '2-2', action: load },
+		{ text: '导入', id: 'import', alias: '2-3', action: importFile },
+		{ text: '新建', alias: '2-4', action: clear },
+		{ text: '导出', id: 'export', alias: '2-5', action: exportFile },
+		{ text: '导出游戏文件', id: 'export-game', alias: '2-6', action: exportGameFile },
 	]
 });
 
